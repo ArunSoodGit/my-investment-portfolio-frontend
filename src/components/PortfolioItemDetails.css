@@ -1,0 +1,101 @@
+.portfolio-details {
+    padding: 2rem;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    max-width: 900px;
+    margin: 2rem auto;
+    font-family: "Inter", sans-serif;
+}
+
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    padding: 0.6rem 1.2rem;
+    border: none;
+    background: #007bff;
+    color: white;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.back-btn:hover {
+    background: #0056b3;
+}
+
+.portfolio-title {
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+}
+
+.item-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+    margin-bottom: 6rem;
+}
+
+.item-summary p {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.profit-label {
+    background-color: #e6f4ea;
+    color: #27a745;
+    font-weight: 600;
+    padding: 0.2rem 0.5rem;
+    border-radius: 6px;
+}
+
+.loss-label {
+    background-color: #fdecea;
+    color: #dc3545;
+    font-weight: 600;
+    padding: 0.2rem 0.5rem;
+    border-radius: 6px;
+}
+
+.transaction-title {
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+}
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+.transaction-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.95rem;
+}
+
+.transaction-table th,
+.transaction-table td {
+    padding: 0.75rem 1rem;
+}
+
+.transaction-table thead {
+    background-color: #f8f9fa;
+}
+
+.transaction-table tbody tr {
+    border-bottom: 1px solid #e0e0e0;
+    transition: background 0.2s;
+}
+
+.transaction-table tbody tr:hover {
+    background-color: #f1f5f9;
+}
+
+.transaction-table td span {
+    display: inline-block;
+    min-width: 50px;
+    text-align: center;
+}

@@ -1,0 +1,93 @@
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5); /* trochę jaśniejsza warstwa */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    backdrop-filter: blur(3px); /* lekki blur dla tła */
+}
+
+.modal-content {
+    background: #ffffff;
+    color: #333333;
+    padding: 30px 25px;
+    border-radius: 16px;
+    max-width: 420px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.modal-content h3 {
+    margin-bottom: 15px;
+    font-size: 1.4rem;
+}
+
+.modal-content p {
+    margin-bottom: 20px;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.transaction-info {
+    margin: 15px 0;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.transaction-info td {
+    padding: 5px 10px;
+    text-align: left;
+}
+
+.transaction-info tr td:first-child {
+    font-weight: 600;
+}
+
+.modal-actions {
+    margin-top: 25px;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.btn-cancel, .btn-delete {
+    flex: 1;
+    padding: 10px 0;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* przycisk anuluj */
+.btn-cancel {
+    background: #f0f0f0;
+    color: #555;
+}
+.btn-cancel:hover {
+    background: #e0e0e0;
+    transform: translateY(-2px);
+}
+
+/* przycisk usuń */
+.btn-delete {
+    background: #e74c3c;
+    color: white;
+}
+.btn-delete:hover {
+    background: #c0392b;
+    transform: translateY(-2px);
+}
+
+/* opcjonalnie: efekt dla całego modala przy otwarciu */
+.modal-overlay.show .modal-content {
+    transform: scale(1);
+    opacity: 1;
+}

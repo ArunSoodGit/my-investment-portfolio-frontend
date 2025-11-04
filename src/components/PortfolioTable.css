@@ -1,0 +1,181 @@
+/* =========================================================
+   📊 PORTFOLIO TABLE STYLESHEET
+   Opis: Style dla tabeli składu portfela i transakcji
+   Sekcje:
+     1. Tabela portfela (główna)
+     2. Tabela transakcji (wewnętrzna)
+     3. Ikony i efekty interakcji
+     4. Wartości dodatnie / ujemne
+     5. Responsywność
+   ========================================================= */
+
+
+/* =========================================================
+   1️⃣  GŁÓWNA TABELA PORTFELA
+   ========================================================= */
+.portfolio-table-wrapper {
+    width: 100%;
+}
+
+.table-title {
+    margin-top: 24px;
+    color: #222;
+    text-align: left;
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+.portfolio-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 6px;
+    font-size: 0.95rem;
+    background-color: transparent;
+}
+
+/* 🔹 Nagłówki tabeli */
+.portfolio-table th {
+    background-color: #f9fafb;
+    color: #555;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    padding: 12px 14px;
+    border-bottom: 2px solid #e5e7eb;
+    letter-spacing: 0.5px;
+}
+
+/* 🔹 Komórki danych */
+.portfolio-table td {
+    background-color: #ffffff;
+    padding: 12px 14px;
+    text-align: center;
+    border: none;
+    transition: all 0.2s ease-in-out;
+}
+
+/* 🔹 Wiersze */
+.portfolio-table tr {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+    border-radius: 8px;
+}
+
+.portfolio-table tr:hover td {
+    background-color: #f0f7ff;
+    transform: scale(1.002);
+}
+
+
+/* =========================================================
+   2️⃣  TABELA TRANSAKCJI (WEWNĘTRZNA)
+   ========================================================= */
+.transaction-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    margin-top: 6px;
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.transaction-table th,
+.transaction-table td {
+    border-bottom: 1px solid #e5e7eb;
+    padding: 10px 14px;
+    text-align: center;
+}
+
+.transaction-table th {
+    background: #f9fafb;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.03em;
+}
+
+.transaction-table tr:last-child td {
+    border-bottom: none;
+}
+
+.transaction-table tr:hover td {
+    background-color: #f1f5ff;
+    transition: background-color 0.3s ease;
+}
+
+.transaction-row td {
+    background-color: #f8fafc;
+    padding: 14px 18px;
+    border-radius: 0 0 12px 12px;
+    border-top: none;
+    transition: background-color 0.3s ease;
+}
+
+.transaction-row td:hover {
+    background-color: #f1f5f9;
+}
+
+
+/* =========================================================
+   3️⃣  IKONY I EFEKTY INTERAKCJI
+   ========================================================= */
+.icon-cell {
+    text-align: center;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 50%;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.icon-cell:hover {
+    background-color: #e0e7ff;
+    transform: scale(1.1);
+}
+
+.search-icon {
+    font-size: 1.3rem;
+    color: #374151;
+    transition: color 0.3s ease;
+}
+
+.icon-cell:hover .search-icon {
+    color: #2563eb;
+}
+
+
+/* =========================================================
+   4️⃣  WARTOŚCI DODATNIE / UJEMNE
+   ========================================================= */
+.profit {
+    color: #16a34a;
+    font-weight: 600;
+}
+
+.loss {
+    color: #dc2626;
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   5️⃣  RESPONSYWNOŚĆ
+   ========================================================= */
+@media (max-width: 768px) {
+    .portfolio-table th,
+    .portfolio-table td {
+        padding: 8px 6px;
+        font-size: 0.8rem;
+    }
+
+    .transaction-table th,
+    .transaction-table td {
+        padding: 8px 6px;
+        font-size: 0.8rem;
+    }
+
+    .table-title {
+        font-size: 1.1rem;
+    }
+}

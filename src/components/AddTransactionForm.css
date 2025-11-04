@@ -1,0 +1,149 @@
+/* =========================================================
+   💼 FORMULARZ — DODAWANIE TRANSAKCJI
+   ========================================================= */
+
+/* Główne opakowanie formularza */
+.transaction-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    width: 100%;
+    padding: 0.5rem 0;
+    font-family: "Inter", "Poppins", sans-serif;
+    color: #1a1a1a;
+}
+
+/* Nagłówek */
+.transaction-form h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 0.5rem;
+    color: #111827;
+    letter-spacing: 0.4px;
+}
+
+/* Etykiety */
+.transaction-form label {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #374151;
+}
+
+/* Pola wejściowe — ujednolicone szerokości i styl */
+.transaction-form input,
+.transaction-form select,
+.transaction-form .date-picker-input {
+    display: block;
+    width: 100%;
+    box-sizing: border-box; /* ✅ Zapobiega "rozpychaniu" przez padding/border */
+    margin-top: 0.35rem;
+    padding: 0.65rem 0.85rem;
+    border-radius: 10px;
+    border: 1.5px solid #e5e7eb;
+    background: #f9fafb;
+    font-size: 1rem;
+    transition: all 0.25s ease;
+    color: #1f2937;
+    appearance: none; /* ✅ Usuwa różnice w wyglądzie selecta między przeglądarkami */
+}
+
+/* Select — wyrównanie stylu do inputa */
+.transaction-form select {
+    background-image: linear-gradient(45deg, transparent 50%, #2563eb 50%),
+    linear-gradient(135deg, #2563eb 50%, transparent 50%);
+    background-position: calc(100% - 18px) calc(50% - 2px), calc(100% - 13px) calc(50% - 2px);
+    background-size: 5px 5px, 5px 5px;
+    background-repeat: no-repeat;
+    padding-right: 2rem; /* miejsce na strzałkę */
+    cursor: pointer;
+}
+
+/* Focus */
+.transaction-form input:focus,
+.transaction-form select:focus,
+.transaction-form .date-picker-input:focus {
+    border-color: #2563eb;
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
+    outline: none;
+}
+
+/* Przycisk dodania transakcji */
+.transaction-form button[type="submit"] {
+    margin-top: 0.5rem;
+    padding: 0.9rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 12px;
+    color: #fff;
+    background: linear-gradient(135deg, #2563eb, #1e40af);
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.25);
+}
+
+.transaction-form button[type="submit"]:hover {
+    background: linear-gradient(135deg, #1d4ed8, #1e3a8a);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(37, 99, 235, 0.35);
+}
+
+.transaction-form button[type="submit"]:disabled {
+    background: #93c5fd;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Komunikaty o stanie */
+.transaction-form .error,
+.transaction-form .success {
+    margin-top: 0.5rem;
+    text-align: center;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+/* Błąd */
+.transaction-form .error {
+    color: #dc2626;
+    animation: shake 0.25s ease-in-out;
+}
+
+/* Sukces */
+.transaction-form .success {
+    color: #16a34a;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Animacje */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    75% { transform: translateX(4px); }
+}
+
+/* Responsywność */
+@media (max-width: 480px) {
+    .transaction-form {
+        gap: 0.9rem;
+    }
+
+    .transaction-form h2 {
+        font-size: 1.3rem;
+    }
+
+    .transaction-form button[type="submit"] {
+        font-size: 0.95rem;
+        padding: 0.8rem;
+    }
+}
