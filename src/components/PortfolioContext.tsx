@@ -33,7 +33,7 @@ export const PortfolioProvider = ({ userId, foundName, id, children }: Portfolio
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [expandedTransactions, setExpandedTransactions] = useState<Record<string, Transaction[]>>({});
-    const [transactionToDelete, setTransactionToDelete] = useState<{ transaction: Transaction; portfolioId: number } | null>(null);
+    const [, setTransactionToDelete] = useState<{ transaction: Transaction; portfolioId: number } | null>(null);
 
     const fetchHistory = async () => {
         try {
@@ -47,7 +47,6 @@ export const PortfolioProvider = ({ userId, foundName, id, children }: Portfolio
 
     useEffect(() => {
         setLoading(true);
-        fetchHistory();
 
         let isUnmounted = false;
         let eventSource: EventSource | null = null;
