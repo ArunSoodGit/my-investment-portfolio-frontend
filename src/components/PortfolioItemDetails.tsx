@@ -25,7 +25,7 @@ export default function PortfolioItemDetails() {
     const portfolioId = location.state?.portfolioId as number;
 
     const [localTransactions, setLocalTransactions] = useState<Transaction[] | null>(null);
-    const [expandedTransactions, setExpandedTransactions] = useState<Record<string, Transaction[]>>({});
+    const [expandedTransactions] = useState<Record<string, Transaction[]>>({});
     const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
     const [transactionToDelete, setTransactionToDelete] = useState<TransactionToDelete | null>(null);
 
