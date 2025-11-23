@@ -1,5 +1,8 @@
-import React, { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import React, {createContext, ReactNode, useContext, useEffect, useState} from "react";
+import {EventSourcePolyfill} from 'event-source-polyfill';
+
 import {Portfolio, PortfolioHistoryPoint, Transaction} from "../types/portfolioTypes";
+import {useAuth} from "./auth/AuthContext";
 
 interface PortfolioContextProps {
     portfolio: Portfolio | null;
@@ -10,6 +13,7 @@ interface PortfolioContextProps {
     expandedTransactions: Record<string, Transaction[]>;
     setTransactionToDelete: (payload: { transaction: Transaction; portfolioId: number }) => void;
     setExpandedTransactions: React.Dispatch<React.SetStateAction<Record<string, Transaction[]>>>;
+
 }
 
 const PortfolioContext = createContext<PortfolioContextProps | undefined>(undefined);
@@ -27,17 +31,24 @@ interface PortfolioProviderProps {
     children: ReactNode;
 }
 
-export const PortfolioProvider = ({ userId, foundName, id, children }: PortfolioProviderProps) => {
+export const PortfolioProvider = ({userId, foundName, id, children}: PortfolioProviderProps) => {
     const [portfolio, setPortfolio] = useState<Portfolio | null>(null);
     const [history, setHistory] = useState<PortfolioHistoryPoint[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [expandedTransactions, setExpandedTransactions] = useState<Record<string, Transaction[]>>({});
     const [, setTransactionToDelete] = useState<{ transaction: Transaction; portfolioId: number } | null>(null);
+    const {token, isAuthenticated} = useAuth();
 
     const fetchHistory = async () => {
         try {
-            const response = await fetch(`http://localhost:8080/v1/api/portfolio/${id}/history`);
+            if (!token) return;
+            const response = await fetch(`http://localhost:8080/v1/api/portfolio/${id}/history`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`,
+                },
+            });
             const data = await response.json();
             setHistory(data);
         } catch (err: any) {
@@ -47,24 +58,29 @@ export const PortfolioProvider = ({ userId, foundName, id, children }: Portfolio
 
     useEffect(() => {
         setLoading(true);
-
+        fetchHistory();
         let isUnmounted = false;
         let eventSource: EventSource | null = null;
 
         const connect = () => {
             if (isUnmounted) return;
-
-            eventSource = new EventSource(`http://localhost:8080/v1/api/portfolio/${id}`);
+            eventSource = new EventSourcePolyfill(`http://localhost:8080/v1/api/portfolio/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
 
             eventSource.onmessage = (event) => {
                 try {
                     const incoming: Portfolio = JSON.parse(event.data);
+                    console.log(incoming);
 
                     setPortfolio((prev) => {
                         if (!prev) return incoming;
 
                         const previousItems = prev.items ?? []; // ✅ zabezpieczenie przed undefined
-                        const itemsMap = new Map(previousItems.map((item) => [item.symbol, item]));                        incoming.items.forEach((updatedItem) => {
+                        const itemsMap = new Map(previousItems.map((item) => [item.symbol, item]));
+                        incoming.items.forEach((updatedItem) => {
                             itemsMap.set(updatedItem.symbol, updatedItem);
                         });
 

@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import DeleteTransactionModal from "./DeleteTransactionModal";
 import { deleteTransaction, getTransactionsForItem } from "../services/api";
 import "./PortfolioTable.css";
+import {useAuth} from "./auth/AuthContext";
 
 const FaSearch = FaIcons.FaSearch as unknown as React.FC<React.SVGProps<SVGSVGElement>>;
 const FaChevronDown = FaIcons.FaChevronDown as unknown as React.FC<React.SVGProps<SVGSVGElement>>;
@@ -28,6 +29,8 @@ export default function PortfolioTable({ items, portfolio, onRefresh }: Portfoli
     const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
     const [transactionToDelete, setTransactionToDelete] = useState<TransactionToDelete | null>(null);
     const navigate = useNavigate();
+    const { token } = useAuth();
+    const [error, setError] = useState<string | null>(null);
 
     if (!portfolio) {
         return <div className="empty-message">⚠️ Brak danych o portfelu.</div>;
@@ -43,7 +46,11 @@ export default function PortfolioTable({ items, portfolio, onRefresh }: Portfoli
         setLoadingTransactions(prev => ({ ...prev, [item.symbol]: true }));
 
         try {
-            const transactions = await getTransactionsForItem(portfolio.id, item.symbol);
+            if (!token) {
+                setError("Musisz być zalogowany");
+                return;
+            }
+            const transactions = await getTransactionsForItem(portfolio.id, item.symbol, token);
             setExpandedTransactions(prev => ({ ...prev, [item.symbol]: transactions }));
         } catch (err) {
             console.error("❌ Błąd przy pobieraniu transakcji:", err);
@@ -56,7 +63,11 @@ export default function PortfolioTable({ items, portfolio, onRefresh }: Portfoli
         if (!transactionToDelete) return;
 
         try {
-            await deleteTransaction(transactionToDelete.portfolioId, transactionToDelete.transaction.id);
+            if (!token) {
+                setError("Musisz być zalogowany");
+                return;
+            }
+            await deleteTransaction(transactionToDelete.portfolioId, transactionToDelete.transaction.id, token);
             console.log("✅ Transakcja usunięta!");
             setDeleteModalOpen(false);
             setTransactionToDelete(null);

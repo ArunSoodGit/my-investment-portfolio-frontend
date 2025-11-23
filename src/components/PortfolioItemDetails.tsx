@@ -6,6 +6,7 @@ import { deleteTransaction, getTransactionsForItem } from "../services/api";
 import { Transaction } from "../types/portfolioTypes";
 import "./PortfolioItemDetails.css";
 import DeleteTransactionModal from "./DeleteTransactionModal";
+import {useAuth} from "./auth/AuthContext";
 
 const FaArrowLeft = FaIcons.FaArrowLeft as unknown as React.FC<React.SVGProps<SVGSVGElement>>;
 const FaTimes = FaIcons.FaTimes as unknown as React.FC<React.SVGProps<SVGSVGElement>>;
@@ -28,6 +29,8 @@ export default function PortfolioItemDetails() {
     const [expandedTransactions] = useState<Record<string, Transaction[]>>({});
     const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
     const [transactionToDelete, setTransactionToDelete] = useState<TransactionToDelete | null>(null);
+    const { token } = useAuth();
+    const [error, setError] = useState<string | null>(null);
 
     /**
      * Pobiera transakcje dla danego symbolu
@@ -36,9 +39,14 @@ export default function PortfolioItemDetails() {
         if (!item || !symbol) return;
 
         try {
+            if (!token) {
+                setError("Musisz być zalogowany");
+                return;
+            }
             const transactions = await getTransactionsForItem(
                 portfolio?.id ?? 0,
-                item.symbol
+                item.symbol,
+                token
             );
             setLocalTransactions(transactions);
             console.log("✅ Transakcje pobrane:", transactions.length);
@@ -61,7 +69,11 @@ export default function PortfolioItemDetails() {
         if (!transactionToDelete) return;
 
         try {
-            await deleteTransaction(transactionToDelete.portfolioId, transactionToDelete.transaction.id);
+            if (!token) {
+                setError("Musisz być zalogowany");
+                return;
+            }
+            await deleteTransaction(transactionToDelete.portfolioId, transactionToDelete.transaction.id, token);
             console.log("✅ Transakcja usunięta!");
             setDeleteModalOpen(false);
             setTransactionToDelete(null);
