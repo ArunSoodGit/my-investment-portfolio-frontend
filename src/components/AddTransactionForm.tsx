@@ -4,6 +4,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import {addTransaction} from "../services/api";
 import "./AddTransactionForm.css";
 import {Transaction} from "../types/portfolioTypes";
+import {useAuth} from "./auth/AuthContext";
 
 interface AddTransactionFormProps {
     id: number;
@@ -19,6 +20,7 @@ export default function AddTransactionForm({id, onTransactionAdded}: AddTransact
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState(false);
+    const { token } = useAuth();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -38,8 +40,12 @@ export default function AddTransactionForm({id, onTransactionAdded}: AddTransact
             };
 
             console.log("📤 Wysyłam transakcję...", newTransaction);
+            if (!token) {
+                setError("Musisz być zalogowany");
+                return;
+            }
 
-            await addTransaction(id, newTransaction);
+            await addTransaction(id, newTransaction, token);
 
             console.log("✅ Transakcja dodana");
 
