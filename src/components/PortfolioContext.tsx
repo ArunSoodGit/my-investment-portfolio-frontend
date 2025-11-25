@@ -2,11 +2,12 @@ import React, {createContext, ReactNode, useContext, useEffect, useState} from "
 import {EventSourcePolyfill} from 'event-source-polyfill';
 
 import {Portfolio, PortfolioHistoryPoint, Transaction} from "../types/portfolioTypes";
+import {HistoricalData} from "./PortfolioChart";
 import {useAuth} from "./auth/AuthContext";
 
 interface PortfolioContextProps {
     portfolio: Portfolio | null;
-    history: PortfolioHistoryPoint[];
+    history: HistoricalData| null;
     loading: boolean;
     error: string | null;
     refresh: () => void;
@@ -33,7 +34,7 @@ interface PortfolioProviderProps {
 
 export const PortfolioProvider = ({userId, foundName, id, children}: PortfolioProviderProps) => {
     const [portfolio, setPortfolio] = useState<Portfolio | null>(null);
-    const [history, setHistory] = useState<PortfolioHistoryPoint[]>([]);
+    const [history, setHistory] = useState<HistoricalData| null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [expandedTransactions, setExpandedTransactions] = useState<Record<string, Transaction[]>>({});
@@ -43,13 +44,14 @@ export const PortfolioProvider = ({userId, foundName, id, children}: PortfolioPr
     const fetchHistory = async () => {
         try {
             if (!token) return;
-            const response = await fetch(`http://localhost:8080/v1/api/portfolio/${id}/history`, {
+            const response = await fetch(`http://localhost:8080/v1/api/historical-data/${id}`, {
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${token}`,
                 },
             });
             const data = await response.json();
+            console.log(data);
             setHistory(data);
         } catch (err: any) {
             setError(err.message);
@@ -63,7 +65,7 @@ export const PortfolioProvider = ({userId, foundName, id, children}: PortfolioPr
         let eventSource: EventSource | null = null;
 
         const connect = () => {
-            if (isUnmounted) return;
+            if (isUnmounted || token == null) return;
             eventSource = new EventSourcePolyfill(`http://localhost:8080/v1/api/portfolio/${id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`

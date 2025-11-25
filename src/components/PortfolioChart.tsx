@@ -1,17 +1,23 @@
 import React from "react";
 import {
-    LineChart,
-    Line,
-    XAxis,
-    YAxis,
-    Tooltip,
     CartesianGrid,
+    Label,
     Legend,
-    ResponsiveContainer,
+    Line,
+    LineChart,
     ReferenceDot,
-    Label
+    ResponsiveContainer,
+    Tooltip,
+    XAxis,
+    YAxis
 } from "recharts";
 import "./PortfolioChart.css";
+
+export interface HistoricalData {
+    portfolioId: number;
+    historicalData: PortfolioPoint[];
+
+}
 
 interface PortfolioPoint {
     date: string;
@@ -20,11 +26,11 @@ interface PortfolioPoint {
 }
 
 interface PortfolioChartProps {
-    data: PortfolioPoint[];
+    data: HistoricalData | null;
 }
 
-export default function PortfolioChart({ data }: PortfolioChartProps) {
-    if (!data || data.length === 0) return null;
+export default function PortfolioChart({data}: PortfolioChartProps) {
+    if (!data || data.historicalData.length === 0) return null;
 
     const formatDate = (dateStr: string) => {
         const d = new Date(dateStr);
@@ -39,7 +45,7 @@ export default function PortfolioChart({ data }: PortfolioChartProps) {
             .padStart(2, "0")}:${d.getMinutes().toString().padStart(2, "0")}`;
     };
 
-    const lastPoint = data[data.length - 1];
+    const lastPoint = data.historicalData[data.historicalData.length - 1];
 
     return (
         <div className="portfolio-chart-container">
@@ -48,16 +54,16 @@ export default function PortfolioChart({ data }: PortfolioChartProps) {
             </h2>
             <ResponsiveContainer width="100%" height={450}>
                 <LineChart
-                    data={data}
-                    margin={{ top: 20, right: 60, left: 20, bottom: 20 }} // Dodany margines po prawej
+                    data={data.historicalData}
+                    margin={{top: 20, right: 60, left: 20, bottom: 20}} // Dodany margines po prawej
                 >
-                    <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                    <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb"/>
                     <XAxis
                         dataKey="date"
                         tickFormatter={formatDate}
-                        tick={{ fontSize: 12 }}
+                        tick={{fontSize: 12}}
                     />
-                    <YAxis tick={{ fontSize: 12 }} domain={["auto", "auto"]} />
+                    <YAxis tick={{fontSize: 12}} domain={["auto", "auto"]}/>
                     <Tooltip
                         formatter={(value: number) =>
                             new Intl.NumberFormat("pl-PL", {
@@ -73,7 +79,7 @@ export default function PortfolioChart({ data }: PortfolioChartProps) {
                             border: "1px solid #e5e7eb"
                         }}
                     />
-                    <Legend />
+                    <Legend/>
 
                     {/* Linia zainwestowanego kapitału */}
                     <Line

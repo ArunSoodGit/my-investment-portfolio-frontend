@@ -6,7 +6,6 @@ import {PortfolioProvider} from "./components/PortfolioContext";
 import LoginPage from "./components/auth/LoginPage";
 import RegisterPage from "./components/auth/RegisterPage";
 import {AuthProvider} from "./components/auth/AuthContext";
-import ProtectedRoute from "./components/auth/ProtectedRoute";
 
 function AppContent() {
 
@@ -15,22 +14,17 @@ function AppContent() {
             <div
                 className="min-h-screen bg-white text-black dark:bg-gray-900 dark:text-white transition-colors duration-500">
                 <Routes>
-                    {/* Nie przekazujemy już fundName ani id */}
                     <Route
                         path="/portfolio"
                         element={
-                            <ProtectedRoute>
-                                <PortfolioView />
-                            </ProtectedRoute>
+                            <PortfolioView/>
                         }
                     />
 
                     <Route
                         path="/portfolio/item/:symbol"
                         element={
-                            <ProtectedRoute>
-                                <PortfolioItemDetails />
-                            </ProtectedRoute>
+                            <PortfolioItemDetails/>
                         }
                     />
                     <Route path="/login" element={<LoginPage/>}/>

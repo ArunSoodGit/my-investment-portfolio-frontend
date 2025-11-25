@@ -24,13 +24,3 @@ export async function registerApi(request: RegisterRequest): Promise<RegisterRes
     return response.json();
 }
 
-export async function refreshTokenApi(refreshToken: string): Promise<LoginResponse> {
-    const response = await fetch(`${API_BASE}/refresh`, {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({refreshToken}),
-    });
-
-    if (!response.ok) throw new Error("Odświeżenie tokena nie powiodło się");
-    return response.json();
-}
